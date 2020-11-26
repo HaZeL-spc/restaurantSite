@@ -27,7 +27,7 @@ const ItemDetail = (props) => {
         <div className="row image-holder" >
           <div className="col-12 col-lg-8 item-detail-info">
             <img 
-              className="image-card image-card-detail" 
+              className="image-card-detail" 
               src={"http://127.0.0.1:8000/api" + mealState.image.trim()} 
               alt="Card cap"
               width="110%"
@@ -38,15 +38,15 @@ const ItemDetail = (props) => {
             <ul>
               {
                 mealState.ingredients.map(ing => (
-                  <li style={{fontSize: "25px"}} className="text-italy">- {ing.name}</li>
+                  <li key={ing.id} style={{fontSize: "25px"}} className="text-italy">- {ing.name}</li>
                 ))
               }
             </ul>
-            <button type="button" class="btn btn-lg-buy-meal text-italy">Zamów</button>
+            <button type="button" className="btn btn-lg-buy-meal text-italy">Zamów</button>
             
           </div>
           <div style={{width: "100%"}} className="item-detail-info">
-            <button type="button" class="btn btn-buy-meal text-italy">Zamów</button>
+            <button type="button" className="btn btn-buy-meal text-italy">Zamów</button>
           </div>
         </div>
     </Template>

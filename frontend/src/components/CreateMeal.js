@@ -40,7 +40,6 @@ const CreateMeal = () => {
         checked:false
       })
     }
-    console.log(ingredients_temp)
     setIngredients(ingredients_temp)
   }
 
@@ -88,8 +87,10 @@ const CreateMeal = () => {
     
     var ingredients_temp = [];
     for (let i = 0; i < ingredients.length; i++) {
-      ingredients_temp.push({...ingredients, checked:false})
+      ingredients_temp.push({...ingredients[i], checked:false})
     }
+
+    console.log(ingredients_temp)
     setIngredients(ingredients_temp)
   }
 
@@ -110,7 +111,6 @@ const CreateMeal = () => {
     }
   }
 
-  console.log("main", 4)
 
   return (
     <Template>
@@ -130,7 +130,6 @@ const CreateMeal = () => {
           {
             ingredients.length > 0 &&
             ingredients.map((ing, index) => {
-              console.log(ing.checked)
               return (
                 <div key={index} className="create-meal-ingredient">
                   <input 
