@@ -3,7 +3,7 @@ import Template from './Template';
 import { Button, Modal } from 'react-bootstrap'
 import axios from 'axios'
 
-const CreateIngredient = () => {
+const CreateIngredient = ({getIngredients}) => {
   const [show, setShow] = useState(false);
   const [ ingredientName, setIngredientName ] = useState('')
 
@@ -32,6 +32,7 @@ const CreateIngredient = () => {
         .then(res => {
           setShow(false)
           create_ingredient.style.border = ""
+          getIngredients()
         }).catch(error => {
           console.log(error)
         })

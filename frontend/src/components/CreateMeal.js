@@ -18,7 +18,7 @@ function slugify(string) {
 
 const CreateMeal = () => {
   const [ ingredients, setIngredients ] = useState([])
-  const [ checkedBoxes, setCheckedBoxes ] = useState([])
+  // const [ checkedBoxes, setCheckedBoxes ] = useState([])
   const [ postData, setPostData ] = useState({
     name:"",
     ingredients: []
@@ -32,25 +32,16 @@ const CreateMeal = () => {
   const getIngredients = async () => {
     const ing_temp = await axios.get("http://127.0.0.1:8000/api/ingredient-list/")
 
-    var checkedBoxesTemp = [];
+    var ingredients_temp = [];
     for (let i = 0; i < ing_temp.data.length; i++) {
-      console.log(i)
-      checkedBoxesTemp.push({
+      ingredients_temp.push({
+        id: ing_temp.data[i].id,
+        name: ing_temp.data[i].name,
         checked:false
       })
     }
-    setCheckedBoxes(checkedBoxesTemp)
-    setIngredients(ing_temp.data)
-    // prepareIngs(ing_temp, checkedBoxesTemp)
-  }
-
-  const prepareIngs = (ing_temp, checkedBoxesTemp) => {
-    console.log(ing_temp)
-    // console.log(1)
-    setCheckedBoxes(checkedBoxesTemp)
-    // console.log(2)
-    setIngredients(ing_temp.data)
-    // console.log(3)
+    console.log(ingredients_temp)
+    setIngredients(ingredients_temp)
   }
 
   const postMeal = async (e) => {
@@ -64,8 +55,8 @@ const CreateMeal = () => {
     }
     let postData_temp = postData
     if (postData_temp.ingredients && postData_temp.name && postImage) {
-      for (let i = 0; i < checkedBoxes.length; i++) {
-        if (checkedBoxes[i].checked) {
+      for (let i = 0; i < ingredients.length; i++) {
+        if (ingredients[i].checked) {
           postData_temp.ingredients.push(ingredients[i])
         }
       }
@@ -95,22 +86,22 @@ const CreateMeal = () => {
     })
     setPostImage(null)
     
-    var checkedBoxes_temp = [];
+    var ingredients_temp = [];
     for (let i = 0; i < ingredients.length; i++) {
-      checkedBoxes_temp.push({checked:false})
+      ingredients_temp.push({...ingredients, checked:false})
     }
-    setCheckedBoxes(checkedBoxes_temp)
+    setIngredients(ingredients_temp)
   }
 
   const handleChange = (e) => {
     if (e.target.name === 'image') {
       setPostImage(e.target.files)
     } else if (e.target.name === 'ingredient') {
-      let items = [...checkedBoxes]
-      const element = checkedBoxes[e.target.id]
+      let items = [...ingredients]
+      const element = ingredients[e.target.id]
       element.checked = !element.checked
       items[e.target.id] = element
-      setCheckedBoxes(items)
+      setIngredients(items)
     } else {
       setPostData({
         ...postData, 
@@ -139,14 +130,14 @@ const CreateMeal = () => {
           {
             ingredients.length > 0 &&
             ingredients.map((ing, index) => {
+              console.log(ing.checked)
               return (
                 <div key={index} className="create-meal-ingredient">
                   <input 
                     name="ingredient"
                     id={index}
                     type="checkbox"
-                    checked={checkedBoxes[index].checked}
-                    // checked={ing.checked}
+                    checked={ing.checked}
                     onChange={handleChange}
                   />
                   <label className="create-meal-ingredient-name">{ing.name}</label> 
@@ -158,7 +149,7 @@ const CreateMeal = () => {
               )
             }) 
           }
-          <CreateIngredient/>
+          <CreateIngredient getIngredients={getIngredients}/>
           <h3>3) Zdjecie</h3>
           <input
             accept="image/*"
