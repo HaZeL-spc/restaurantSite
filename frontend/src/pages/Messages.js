@@ -48,8 +48,8 @@ const Messages = () => {
       <div className="container image-holder text-italy">
         {
           preparedMess &&
-          Object.keys(preparedMess).map((key) => (
-            <div className="row">
+          Object.keys(preparedMess).map((key, index) => (
+            <div key={index} className="row">
               <h1 className="admin-message-day-headline col-12">{key}</h1>
               {
                 preparedMess[key].map(mess => (
